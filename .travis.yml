@@ -1,0 +1,35 @@
+sudo: required
+
+services:
+  - docker
+
+env:
+  global:
+    - USER='jdvelasq'
+    - EMAIL='jdvelasq@unal.edu.co'
+    - SEM='2019-2'
+    - FILENAME=${SEM}-${PWD##*/}.yaml
+    - REPO=${PWD##*/}
+
+before_install:
+  - git config --global user.email ${EMAIL}
+  - git config --global user.name ${USER}
+  - docker pull jdvelasq/classroom-grader-cda:${SEM}  
+
+script:
+  - rm -f grade.yaml
+  - docker run --rm --volume="$(pwd)":/app jdvelasq/classroom-grader-cda:${SEM}
+  #-------------------------------------------------------------------------------------------
+  # - git add grade.yaml
+  # - git commit -m "$(head -n 1 grade.yaml && echo ', ' && echo $(date))"
+  # - git request-pull -p master https://jdvelasq:${GITHUB_TOKEN}@github.com/jdvelasq/${REPO}
+  #-------------------------------------------------------------------------------------------
+  - mv grade.yaml ${FILENAME}
+
+after_success:
+  - git clone --quiet https://jdvelasq:${GITHUB_TOKEN}@github.com/jdvelasq/classroom-gradebook.git  ./repo
+  - mv ${FILENAME} ./repo/${FILENAME}
+  - cd repo
+  - git add ${FILENAME}
+  - git commit -m "$(echo 'Automatic grading from Travis-CI ' && echo $(date))"
+  - git push origin master
