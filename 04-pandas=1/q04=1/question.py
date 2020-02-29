@@ -10,4 +10,7 @@
 ##
 ##  >>> Escriba su codigo a partir de este punto <<<
 ##
+import pandas as pd
 
+data = pd.read_csv('tbl1.tsv', sep = "\t")
+print(sorted(list(set(data['_c4'].str.upper()))))

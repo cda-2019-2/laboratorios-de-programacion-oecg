@@ -46,3 +46,7 @@
 --
 --  >>> Escriba su codigo a partir de este punto <<<
 --  
+SELECT k0, avg(c21)
+FROM tbl1 NATURAL JOIN tbl2
+WHERE c13 > 400
+GROUP BY k0;

@@ -17,5 +17,16 @@
 ##
 ##  >>> Escriba su codigo a partir de este punto <<<
 ##
+from itertools import groupby
+from operator import itemgetter
 
 
+with open('data.csv', 'r') as f:
+    file = f.readlines()
+    
+    file = [line.replace('\n', '') for line in file]
+    file = [line.split('\t') for line in file]
+    
+    table = [[row[0], len(row[3].split(',')), len(row[4].split(','))] for row in file]
+    for r, c4, c5 in table:
+        print(f'{r},{c4},{c5}')

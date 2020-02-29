@@ -16,3 +16,7 @@
 ##
 ##  >>> Escriba su codigo a partir de este punto <<<
 ##
+import pandas as pd
+
+data = pd.read_csv('tbl0.tsv', sep = "\t")
+print((data.groupby('_c1').mean())['_c2'])

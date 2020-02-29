@@ -14,3 +14,8 @@
 ##
 ##  >>> Escriba su codigo a partir de este punto <<<
 ##
+import pandas as pd
+
+data = pd.read_csv('tbl0.tsv', sep = "\t")
+data['suma'] = data['_c0'] + data['_c2']
+print(data)
